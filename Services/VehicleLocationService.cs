@@ -23,5 +23,9 @@ namespace FleetManagement.Services
             return await _vehicleLocationRepository.GetLatestLocationByVehicleIdAsync(vehicleId);
         }
 
+        public async Task UpdateVehicleLocationAsync(int vehicleId, VehicleLocationDto vehicleLocationDto)
+        {
+            await _vehicleLocationRepository.UpdateVehicleLocationAsync(vehicleId, vehicleLocationDto);
+        }
     }
 }

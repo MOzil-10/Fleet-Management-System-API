@@ -37,5 +37,23 @@ namespace FleetManagement.Repository
                 .Include(vl => vl.Vehicle)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task UpdateVehicleLocationAsync(int vehicleId, VehicleLocationDto vehicleLocationDto)
+        {
+            var existingLocation = await _context.VehicleLocations
+                .Where(vl => vl.VehicleId == vehicleId)
+                .OrderByDescending(vl => vl.Timestamp)
+                .FirstOrDefaultAsync();
+
+            if (existingLocation == null)
+                throw new KeyNotFoundException($"Location for vehicle ID {vehicleId} not found.");
+
+            existingLocation.Latitude = vehicleLocationDto.Latitude;
+            existingLocation.Longitude = vehicleLocationDto.Longitude;
+            existingLocation.Timestamp = vehicleLocationDto.Timestamp;
+
+            _context.VehicleLocations.Update(existingLocation);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace FleetManagement.Interface
     {
         Task AddVehicleLocationAsync(VehicleLocationDto vehicleLocationDto);
         Task<VehicleLocation> GetLatestLocationByVehicleIdAsync(int vehicleId);
+        Task UpdateVehicleLocationAsync(int vehicleId, VehicleLocationDto vehicleLocationDto);
     }
 }

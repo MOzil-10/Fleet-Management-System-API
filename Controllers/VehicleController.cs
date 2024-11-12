@@ -35,14 +35,42 @@ namespace FleetManagement.Controllers
         [HttpGet("{vehicleId}/location")]
         public async Task<ActionResult<VehicleLocation>> GetLatestLocation(int vehicleId)
         {
-            var location = await _vehicleLocationService.GetLatestLocationAsync(vehicleId);
-
-            if (location == null)
+            try
             {
-                return NotFound($"Vehicle with ID {vehicleId} not found.");
-            }
+                var location = await _vehicleLocationService.GetLatestLocationAsync(vehicleId);
 
-            return Ok(location);
+                if (location == null)
+                {
+                    return NotFound($"Vehicle with ID {vehicleId} not found.");
+                }
+
+                return Ok(location);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving the vehicle location: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{vehicleId}/location")]
+        public async Task<IActionResult> UpdateVehicleLocation(int vehicleId, [FromBody] VehicleLocationDto vehicleLocationDto)
+        {
+            if (vehicleLocationDto == null)
+                return BadRequest("Vehicle location data is required.");
+
+            try
+            {
+                await _vehicleLocationService.UpdateVehicleLocationAsync(vehicleId, vehicleLocationDto);
+                return Ok("Vehicle location updated successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating the vehicle location: {ex.Message}");
+            }
         }
     }
 }
