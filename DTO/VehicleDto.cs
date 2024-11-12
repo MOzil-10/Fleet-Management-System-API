@@ -5,13 +5,15 @@ namespace FleetManagement.DTO
 {
     public class VehicleDto
     {
-        [Required]
+        [Required(ErrorMessage = "Make is required.")]
+        [StringLength(50, ErrorMessage = "Make cannot be longer than 50 characters.")]
         public string Make { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Model is required.")]
+        [StringLength(50, ErrorMessage = "Model cannot be longer than 50 characters.")]
         public string Model { get; set; }
 
-        [Range(1900, 2100)]
+        [Range(1900, 2100, ErrorMessage = "Year must be between 1900 and 2100.")]
         public int Year { get; set; }
     }
 }

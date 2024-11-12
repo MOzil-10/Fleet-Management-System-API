@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetManagement.Migrations
 {
     [DbContext(typeof(FleetContext))]
-    [Migration("20241112154612_InitialCreate")]
+    [Migration("20241112170731_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -56,12 +56,10 @@ namespace FleetManagement.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleLocationId"));
 
                     b.Property<decimal>("Latitude")
-                        .HasPrecision(10, 7)
-                        .HasColumnType("decimal(10,7)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Longitude")
-                        .HasPrecision(10, 7)
-                        .HasColumnType("decimal(10,7)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -74,6 +72,31 @@ namespace FleetManagement.Migrations
                     b.HasIndex("VehicleId");
 
                     b.ToTable("VehicleLocations");
+                });
+
+            modelBuilder.Entity("FleetManagement.Model.VehicleLocationHistory", b =>
+                {
+                    b.Property<int>("LocationHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LocationHistoryId"));
+
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Longitude")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LocationHistoryId");
+
+                    b.ToTable("VehicleLocationHistories");
                 });
 
             modelBuilder.Entity("FleetManagement.Model.VehicleLocation", b =>

@@ -27,5 +27,26 @@ namespace FleetManagement.Services
         {
             await _vehicleLocationRepository.UpdateVehicleLocationAsync(vehicleId, vehicleLocationDto);
         }
+
+        public async Task<List<VehicleLocationHistoryDto>> GetLocationHistoryByVehicleIdAsync(int vehicleId)
+        {
+            var locationHistory = await _vehicleLocationRepository.GetLocationHistoryByVehicleIdAsync(vehicleId);
+
+            if (locationHistory == null || locationHistory.Count == 0)
+            {
+                return null;
+            }
+
+            var locationHistoryDtos = locationHistory.Select(v => new VehicleLocationHistoryDto
+            {
+                VehicleId = v.VehicleId,
+                Latitude = Math.Round(v.Latitude, 5),
+                Longitude = Math.Round(v.Longitude, 5),
+                Timestamp = v.Timestamp
+            }).ToList();
+
+            return locationHistoryDtos;
+        }
+
     }
 }

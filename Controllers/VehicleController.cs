@@ -2,6 +2,7 @@
 using FleetManagement.Model;
 using FleetManagement.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FleetManagement.Controllers
 {
@@ -61,7 +62,7 @@ namespace FleetManagement.Controllers
             try
             {
                 await _vehicleLocationService.UpdateVehicleLocationAsync(vehicleId, vehicleLocationDto);
-                return Ok("Vehicle location updated successfully.");
+                return Ok("Vehicle location updated and history recorded successfully.");
             }
             catch (KeyNotFoundException ex)
             {
@@ -70,6 +71,26 @@ namespace FleetManagement.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"An error occurred while updating the vehicle location: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{vehicleId}/location/history")]
+        public async Task<ActionResult<IEnumerable<VehicleLocationHistoryDto>>> GetLocationHistoryByVehicleId(int vehicleId)
+        {
+            try
+            {
+                var locationHistoryDtos = await _vehicleLocationService.GetLocationHistoryByVehicleIdAsync(vehicleId);
+
+                if (locationHistoryDtos == null || locationHistoryDtos.Count == 0)
+                {
+                    return NotFound($"No location history found for vehicle with ID {vehicleId}.");
+                }
+
+                return Ok(locationHistoryDtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving the location history: {ex.Message}");
             }
         }
     }

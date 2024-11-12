@@ -10,19 +10,7 @@ namespace FleetManagement.Data
 
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehicleLocation> VehicleLocations { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<VehicleLocation>()
-                .Property(v => v.Latitude)
-                .HasPrecision(10, 7);
-
-            modelBuilder.Entity<VehicleLocation>()
-                .Property(v => v.Longitude)
-                .HasPrecision(10, 7);
-
-            base.OnModelCreating(modelBuilder);
-        }
+        public DbSet<VehicleLocationHistory> VehicleLocationHistories { get; set; }
 
     }
 }
