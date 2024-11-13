@@ -11,7 +11,7 @@ namespace FleetManagement.DTO
         [JsonProperty("latitude")]
         public decimal Latitude { get; set; }
 
-        [JsonProperty("latitude")]
+        [JsonProperty("longitude")]
         public decimal Longitude { get; set; }
         public DateTime Timestamp { get; set; }
     }
