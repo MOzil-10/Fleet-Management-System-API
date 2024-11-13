@@ -19,6 +19,11 @@ namespace FleetManagement.Controllers
             _vehicleLocationService = vehicleLocationService;
         }
 
+        /// <summary>
+        /// Adds a new vehicle to the system.
+        /// </summary>
+        /// <param name="vehicleDto">The data transfer object containing the vehicle information.</param>
+        /// <returns>An IActionResult indicating the result of the operation.</returns>
         [HttpPost]
         public async Task<IActionResult> AddVehicle([FromBody] VehicleDto vehicleDto)
         {
@@ -26,6 +31,11 @@ namespace FleetManagement.Controllers
             return Ok("Vehicle added successfully.");
         }
 
+        /// <summary>
+        /// Adds a new vehicle location to the system.
+        /// </summary>
+        /// <param name="vehicleLocationDto">The data transfer object containing the vehicle location information.</param>
+        /// <returns>An IActionResult indicating the result of the operation.</returns>
         [HttpPost("location")]
         public async Task<IActionResult> AddVehicleLocation([FromBody] VehicleLocationDto vehicleLocationDto)
         {
@@ -33,6 +43,11 @@ namespace FleetManagement.Controllers
             return Ok("Vehicle location added successfully.");
         }
 
+        /// <summary>
+        /// Retrieves the latest location of a vehicle by its ID.
+        /// </summary>
+        /// <param name="vehicleId">The unique identifier of the vehicle.</param>
+        /// <returns>An <see cref="ActionResult{T}"/> containing the latest vehicle location.</returns>
         [HttpGet("{vehicleId}/location")]
         public async Task<ActionResult<VehicleLocation>> GetLatestLocation(int vehicleId)
         {
@@ -53,6 +68,12 @@ namespace FleetManagement.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the location of an existing vehicle.
+        /// </summary>
+        /// <param name="vehicleId">The unique identifier of the vehicle.</param>
+        /// <param name="vehicleLocationDto">The data transfer object containing the updated vehicle location information.</param>
+        /// <returns>An IActionResult indicating the result of the operation.</returns>
         [HttpPut("{vehicleId}/location")]
         public async Task<IActionResult> UpdateVehicleLocation(int vehicleId, [FromBody] VehicleLocationDto vehicleLocationDto)
         {
@@ -74,6 +95,11 @@ namespace FleetManagement.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves the location history of a vehicle by its ID.
+        /// </summary>
+        /// <param name="vehicleId">The unique identifier of the vehicle.</param>
+        /// <returns>An <see cref="ActionResult{T}"/> containing a list of vehicle location history.</returns>
         [HttpGet("{vehicleId}/location/history")]
         public async Task<ActionResult<IEnumerable<VehicleLocationHistoryDto>>> GetLocationHistoryByVehicleId(int vehicleId)
         {
